@@ -7,9 +7,9 @@ void fibonachi(int n, Emulator& em) {
     std::string code = "BEGIN\nPUSH ";
     code += n_string;
     code += "\n";
-    code+= "POPR eax\n" // eax = n
+    code+= "POPR eax\n"
                        "PUSH 2\n"
-                       "POPR ecx\n" // ecx = 2
+                       "POPR ecx\n"
                        "PUSH 0\n"
                        "PUSH 1\n"
 
