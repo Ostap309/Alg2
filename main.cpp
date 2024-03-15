@@ -1,64 +1,60 @@
-#include "stack.h"
-#include <iostream>
-int test_constructor() {
-    {
-        Stack<int> stack;
-        if (!stack.Empty()) {
-            return 1;
-        }
-        std::cout << "OK\n";
-    }
-    {
-        Stack<int> stack({1, 2, 4});
-        std::cout << "OK\n";
-        Stack<int> stack2 = stack;
-        std::cout << "OK\n";
-        if (stack2.Size() != stack.Size()) {
-            return 1;
-        }
-        std::cout << "OK\n";
-        while (!stack.Empty()) {
-            if (stack2.Top() != stack.Top()) {
-                return 1;
-            }
-            stack.Pop();
-            stack2.Pop();
-        }
-        std::cout << "OK\n";
-    }
-    {
-        Stack<int> stack({1, 2, 4});
-        Stack<int> stack2(stack);
-        if (stack2.Size() != stack.Size()) {
-            return 1;
-        }
-        while (!stack.Empty()) {
-            if (stack2.Top() != stack.Top()) {
-                return 1;
-            }
-            stack.Pop();
-            stack2.Pop();
-        }
-    }
-    return 0;
+#include "emulator.h"
+#include <fstream>
+#include "googletest/googletest/include/gtest/gtest.h"
+#include "googletest/googlemock/include/gmock/gmock.h"
+void fibonachi(int n, Emulator& em) {
+    std::string n_string = std::to_string(n);
+    std::string code = "BEGIN\nPUSH ";
+    code += n_string;
+    code += "\n";
+    code+= "POPR eax\n" // eax = n
+                       "PUSH 2\n"
+                       "POPR ecx\n" // ecx = 2
+                       "PUSH 0\n"
+                       "PUSH 1\n"
+
+                       "PUSH 0\n"
+                       "PUSH 0\n"
+
+                       "LOOP\n"
+
+                       "POP\n"
+                       "POP\n"
+
+                       
+
+                       "ADD\n"
+
+
+                       "PUSH 1\n"
+                       "PUSHR ecx\n"
+                       "ADD\n"
+                       "POPR ecx\n"
+                       "POP\n"
+                       "POP\n"
+
+
+                       "PUSHR eax\n"
+                       "PUSHR ecx\n"
+                       "JNE LOOP\n"
+                       "POP\n"
+                       "POP\n"
+                       "OUT\n"
+                       "END\n";
+    em.Run(code);
 }
-int test_change() {
-    {
-        Stack<int> stack;
-        stack.Push(1);
-        stack.Push(2);
-        stack.Push(4);
-        if (stack.Size() != 3 || stack.Top() != 4) {
-            return 1;
-        }
-    }
-    return 0;
+TEST(Fibonachi, Subset1) {
+    Emulator em;
+    fibonachi(5, em);
+    ASSERT_TRUE(em.last_out == "3");
 }
-int main() {
-    if (test_constructor()) {
-        return 1;
-    }
-    if (test_change()) {
-        return 1;
-    }
+TEST(Fibonachi, Subset2) {
+    Emulator em;
+    fibonachi(3, em);
+    ASSERT_TRUE(em.last_out == "1");
+}
+
+int main(int argc, char** argv) { /// argc = 5, argv = ["./stack", "a", "b", "c", "d"]
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

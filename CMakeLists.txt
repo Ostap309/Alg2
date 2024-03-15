@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(Stack)
-include(CTest)
 enable_testing()
-
-add_executable(stack main.cpp)
-set_property(TARGET stack PROPERTY CXX_STANDARD_REQUIRED 17)
-set_property(TARGET stack PROPERTY CXX_STANDARD 17)
-add_test(NAME TEST COMMAND $<TARGET_FILE:stack>)
+add_subdirectory(googletest)
+add_executable(stack main.cpp emulator.cpp)
+target_link_libraries(stack gtest_main gmock_main)
