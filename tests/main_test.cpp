@@ -60,3 +60,41 @@ TEST(Fibonachi, Subset2) {
     std::string code = "BEGIN\nIN\nOUT\nEND\n";
     em.Run(code, out, std::cout);
 }
+
+TEST(StackTest, Subset1) {
+    Stack<int> stack;
+    ASSERT_TRUE(stack.Empty());
+}
+
+TEST(StackTest, Subset2) {
+    Stack<int> stack({1, 2, 4});
+        std::cout << "OK\n";
+        Stack<int> stack2 = stack;
+        std::cout << "OK\n";
+        ASSERT_TRUE(stack2.Size() == stack.Size())
+        std::cout << "OK\n";
+        while (!stack.Empty()) {
+            ASSERT_TRUE(stack2.Top() == stack.Top())
+            stack.Pop();
+            stack2.Pop();
+        }
+}
+
+TEST(StackTest, Subset3) {
+    Stack<int> stack({1, 2, 4});
+        Stack<int> stack2(stack);
+        ASSERT_TRUE(stack2.Size() == stack.Size())
+        while (!stack.Empty()) {
+            ASSERT_TRUE(stack2.Top() == stack.Top())
+            stack.Pop();
+            stack2.Pop();
+        }
+}
+
+TEST(StackTest, Subset4) {
+    Stack<int> stack;
+        stack.Push(1);
+        stack.Push(2);
+        stack.Push(4);
+        ASSERT_FALSE(stack.Size() != 3 || stack.Top() != 4)
+}
