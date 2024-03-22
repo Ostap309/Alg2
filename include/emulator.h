@@ -1,17 +1,17 @@
+#pragma once
 #include "stack.h"
+#include "parser.h"
 #include <map>
-#include <string>
-#include <vector>
-#include <sstream>
 #include <iostream>
+#include <fstream>
 class Emulator {
 public:
-    void Run(const std::string &code);
-    void Execute();
+    void Run(const std::string &code, std::istream &in, std::ostream &out);
     ~Emulator();
     std::string last_out;
-
 private:
+    friend class CommandWrap;
+    void Execute(std::istream &, std::ostream &);
     using ValueType = int;
     void Begin();
     void End();
@@ -23,8 +23,8 @@ private:
     void Sub();
     void Mul();
     void Div();
-    void Out();
-    void In();
+    void Out(std::ostream &);
+    void In(std::istream &);
     void Jmp(const std::string &label);
     void Jeq(const std::string &label);
     void Jne(const std::string &label);
@@ -33,8 +33,9 @@ private:
 
     Stack<ValueType> stack_;
     std::map<std::string, ValueType> reg_;
-    std::vector<std::string> history_;
+    Parser parser_;
     bool start_ = false;
     size_t line;
     Stack<size_t> stack_calls_;
+    const static std::array<std::string, 3> commands;
 };

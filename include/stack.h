@@ -39,7 +39,6 @@ public:
         if (this == &other) {
             return *this;
         }
-        delete[] arr_;
         arr_ = new T[other.sz_];
         sz_ = other.sz_;
         for (int i = 0; i < sz_; ++i) {
