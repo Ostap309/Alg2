@@ -32,7 +32,7 @@ public:
     }
 
     Stack(Stack&& other) {
-        Stack(std::move(other))
+        Stack(std::move(other));
     }
 
     Stack& operator=(const Stack& other) {
@@ -65,7 +65,7 @@ public:
     }
 
     void Push(T&& value) {
-        Push(std::move(value))
+        Push(std::move(value));
     }
 
     void Pop() {

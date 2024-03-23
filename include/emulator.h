@@ -7,7 +7,6 @@
 class Emulator {
 public:
     void Run(const std::string &code, std::istream &in, std::ostream &out);
-    ~Emulator();
     std::string last_out;
 private:
     friend class CommandWrap;

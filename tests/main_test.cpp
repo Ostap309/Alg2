@@ -1,8 +1,10 @@
 #include "../include/emulator.h"
 #include <istream>
-#include "../googletest/googletest/include/gtest/gtest.h"
-#include "../googletest/googlemock/include/gmock/gmock.h"
-void fibonachi(int n, Emulator& em, std::ofstream &file_out) {
+#include <gtest/gtest.h>
+
+//#include "../googletest/googletest/include/gtest/gtest.h"
+//#include "../googletest/googlemock/include/gmock/gmock.h"
+void fibonacci(int n, Emulator &em, std::ofstream &file_out) {
     std::stringstream ss;
     ss << n;
     std::string n_string = std::to_string(n);
@@ -21,8 +23,6 @@ void fibonachi(int n, Emulator& em, std::ofstream &file_out) {
 
                        "POP\n"
                        "POP\n"
-
-                       
 
                        "ADD\n"
 
@@ -43,16 +43,18 @@ void fibonachi(int n, Emulator& em, std::ofstream &file_out) {
                        "OUT\n"
                        "END\n";
     em.Run(code, ss, file_out);
-    file_out.close();
 }
+
 TEST(Fibonachi, Subset1) {
     std::ofstream file_out("./output.txt");
     Emulator em;
-    fibonachi(5, em, file_out);
-    ASSERT_TRUE(em.last_out == "3");
-    fibonachi(3, em, file_out);
-    ASSERT_TRUE(em.last_out == "1");
+    fibonacci(5, em, file_out);
+    EXPECT_EQ(em.last_out, "3");
+    fibonacci(3, em, file_out);
+    EXPECT_EQ(em.last_out, "1");
 }
+
+
 TEST(Fibonachi, Subset2) {
     std::stringstream out;
     out << 4;
@@ -68,33 +70,33 @@ TEST(StackTest, Subset1) {
 
 TEST(StackTest, Subset2) {
     Stack<int> stack({1, 2, 4});
-        std::cout << "OK\n";
-        Stack<int> stack2 = stack;
-        std::cout << "OK\n";
-        ASSERT_TRUE(stack2.Size() == stack.Size())
-        std::cout << "OK\n";
-        while (!stack.Empty()) {
-            ASSERT_TRUE(stack2.Top() == stack.Top())
-            stack.Pop();
-            stack2.Pop();
-        }
+    std::cout << "OK\n";
+    Stack<int> stack2 = stack;
+    std::cout << "OK\n";
+    ASSERT_TRUE(stack2.Size() == stack.Size());
+    std::cout << "OK\n";
+    while (!stack.Empty()) {
+        ASSERT_TRUE(stack2.Top() == stack.Top());
+        stack.Pop();
+        stack2.Pop();
+    }
 }
 
 TEST(StackTest, Subset3) {
     Stack<int> stack({1, 2, 4});
-        Stack<int> stack2(stack);
-        ASSERT_TRUE(stack2.Size() == stack.Size())
-        while (!stack.Empty()) {
-            ASSERT_TRUE(stack2.Top() == stack.Top())
-            stack.Pop();
-            stack2.Pop();
-        }
+    Stack<int> stack2(stack);
+    ASSERT_TRUE(stack2.Size() == stack.Size());
+    while (!stack.Empty()) {
+        ASSERT_TRUE(stack2.Top() == stack.Top());
+        stack.Pop();
+        stack2.Pop();
+    }
 }
 
 TEST(StackTest, Subset4) {
     Stack<int> stack;
-        stack.Push(1);
-        stack.Push(2);
-        stack.Push(4);
-        ASSERT_FALSE(stack.Size() != 3 || stack.Top() != 4)
+    stack.Push(1);
+    stack.Push(2);
+    stack.Push(4);
+    ASSERT_FALSE(stack.Size() != 3 || stack.Top() != 4);
 }
